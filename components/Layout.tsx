@@ -1,7 +1,7 @@
 import React, { ReactNode, useEffect, useState } from 'react'
 import Link from 'next/link'
 import Head from 'next/head'
-import cookieCutter from 'cookie-cutter'
+import cookie from 'react-cookies'
 import styled from "styled-components";
 import { useRouter } from 'next/router';
 import { getymd, getWeekNumber } from '../utils/week'
@@ -117,11 +117,11 @@ const Pet = styled.img`
   }
 `
 
-const Layout = ({ children, title = 'This is the default title' }: Props) => {
+const Layout = ({ children, title = '' }: Props) => {
   const [username, setUsername] = useState("")
   const router = useRouter()
   const write = () => {
-    const username = cookieCutter.get('username')
+    const username = cookie.load('username')
     if (username) {
       const { y, m, d } = getymd();
       const w = getWeekNumber(y, m, d)
@@ -129,7 +129,7 @@ const Layout = ({ children, title = 'This is the default title' }: Props) => {
     }
   }
   useEffect(() => {
-    const ua = cookieCutter.get('username')
+    const ua = cookie.load('username')
     if (ua) {
       setUsername(ua)
     }

@@ -1,4 +1,4 @@
-import React, { FunctionComponent, ReactNode, useEffect, useState } from 'react'
+import React, { ReactNode, useEffect} from 'react'
 import styled from "styled-components";
 
 const B = styled.button`

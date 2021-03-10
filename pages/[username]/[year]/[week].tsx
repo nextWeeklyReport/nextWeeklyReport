@@ -39,7 +39,7 @@ const WeeklyRePort = () => {
 
     return (
         <Layout
-            title={username ? username : ''}
+            title={username ? username as string : ''}
         >
             <h1>{username}</h1>
             <h2>{year}年 第 {week} 周</h2>
@@ -48,7 +48,7 @@ const WeeklyRePort = () => {
                 isEmpty && <div>Empty</div>
             }
             {
-                !isEmpty && <Editor value={md} readOnly={true} />
+                !isEmpty && <Editor value={md} onChange={()=>{}} readOnly={true} />
             }
             <a href={`/edit/${username}/${year}/${week}`}>edit</a>
         </Layout>

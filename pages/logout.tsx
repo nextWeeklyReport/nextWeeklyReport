@@ -1,12 +1,14 @@
 import Link from 'next/link'
 import Layout from '../components/Layout'
-import cookieCutter from 'cookie-cutter'
-import { useEffect, useState } from 'react';
+import cookie from 'react-cookies'
+import { useEffect } from 'react';
 
 const LogoutPage = () => {
     useEffect(() => {
-        cookieCutter.set('token', '', { expires: new Date(0) })
-        cookieCutter.set('username', '', { expires: new Date(0) })
+        cookie.remove('token', { path: '/' })
+        cookie.remove('username', { path: '/' })
+        // cookieCutter.set('token', '', { expires: new Date(0) })
+        // cookieCutter.set('username', '', { expires: new Date(0) })
     }, [])
     return (
         <Layout title="Logout">
