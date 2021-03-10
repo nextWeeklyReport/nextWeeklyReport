@@ -4,8 +4,10 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { getformto } from '../../../utils/week'
 import Editor from "rich-markdown-editor";
+import cookie from "react-cookies";
 const WeeklyRePort = () => {
     const router = useRouter()
+    const [am, setAm] = useState(false);
     const { username, year, week } = router.query
     const [md, setMD] = useState("");
     const [weeks, setWeeks] = useState<any>({})
@@ -35,6 +37,9 @@ const WeeklyRePort = () => {
         get()
         const { from, to } = getformto(parseInt(year + ''), parseInt(week + ''))
         setWeeks({ from, to })
+        if (cookie.load("username") == username) {
+            setAm(true);
+        }
     }, [username, year, week])
 
     return (
@@ -50,7 +55,10 @@ const WeeklyRePort = () => {
             {
                 !isEmpty && <Editor value={md} onChange={()=>{}} readOnly={true} />
             }
-            <a href={`/edit/${username}/${year}/${week}`}>edit</a>
+            {
+                am && <a href={`/edit/${username}/${year}/${week}`}>edit</a>
+            }
+            
         </Layout>
     )
 }

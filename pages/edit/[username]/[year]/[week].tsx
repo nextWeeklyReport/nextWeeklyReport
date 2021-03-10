@@ -5,8 +5,10 @@ import { useEffect, useState } from "react";
 import { getformto } from "../../../../utils/week";
 import Editor from "rich-markdown-editor";
 import Btn from "../../../../components/Btn";
+import cookie from "react-cookies";
 const WeeklyRePort = () => {
   const router = useRouter();
+  const [am, setAm] = useState(false);
   const { username, year, week } = router.query;
   const [md, setMD] = useState("");
   const [weeks, setWeeks] = useState<any>({});
@@ -62,23 +64,32 @@ const WeeklyRePort = () => {
     get();
     const { from, to } = getformto(parseInt(year + ""), parseInt(week + ""));
     setWeeks({ from, to });
+    if (cookie.load("username") == username) {
+      setAm(true);
+    }
   }, [username, year, week]);
 
   return (
     <Layout
       title={username ? username as string : ""}
     >
-      <h1>{username}</h1>
-      <h2>{year}年 第 {week} 周</h2>
-      <p>{weeks?.from?.m}月{weeks?.from?.d}日 ~ {weeks?.to?.m}月{weeks?.to?.d}日</p>
-      <Editor
-        value={md}
-        autoFocus={true}
-        onChange={(value: any) => {
-          setText(value);
-        }}
-      />
-      <Btn onClick={save}>{isEmpty ? "POST" : "SAVE"}</Btn>
+      {
+        am && <div><h1>{username}</h1>
+        <h2>{year}年 第 {week} 周</h2>
+        <p>{weeks?.from?.m}月{weeks?.from?.d}日 ~ {weeks?.to?.m}月{weeks?.to?.d}日</p>
+        <Editor
+          value={md}
+          autoFocus={true}
+          onChange={(value: any) => {
+            setText(value);
+          }}
+        />
+        <Btn onClick={save}>{isEmpty ? "POST" : "SAVE"}</Btn></div>
+      }
+      {
+        !am && <div>403 your not {username}</div>
+      }
+      
     </Layout>
   );
 };
